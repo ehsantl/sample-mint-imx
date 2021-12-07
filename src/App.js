@@ -1,39 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
-import Template from './Template'
+import logo from "./logo.svg";
+import "./App.css";
+import Template from "./Template";
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-
-import { ImmutableXClient, Link } from '@imtbl/imx-sdk';
-import { ERC721TokenType, ETHTokenType } from '@imtbl/imx-sdk';
-import { ethers } from 'ethers';
-
+import { ImmutableXClient, Link } from "@imtbl/imx-sdk";
+import { ERC721TokenType, ETHTokenType } from "@imtbl/imx-sdk";
+import { ethers } from "ethers";
 
 // const linkAddress = 'https://link.x.immutable.com';
 // const apiAddress = 'https://api.x.immutable.com/v1';
 
 // Ropsten Testnet
-const linkAddress = 'https://link.ropsten.x.immutable.com';
-const apiAddress = 'https://api.ropsten.x.immutable.com/v1';
-
+const linkAddress = "https://link.ropsten.x.immutable.com";
+const apiAddress = "https://api.ropsten.x.immutable.com/v1";
 
 // Link SDK
 const link = new Link(linkAddress);
 
-
-async function setupAccount(){
-    const {address, starkPublicKey } = await link.setup({});
-    localStorage.setItem('WALLET_ADDRESS', address);
-    localStorage.setItem('STARK_PUBLIC_KEY', starkPublicKey);
+async function setupAccount() {
+  const { address, starkPublicKey } = await link.setup({});
+  localStorage.setItem("WALLET_ADDRESS", address);
+  localStorage.setItem("STARK_PUBLIC_KEY", starkPublicKey);
 }
 
 async function getWalletInfo() {
   const client = await ImmutableXClient.build({ publicApiUrl: apiAddress });
-  const link = new Link(linkAddress);  
-  
-  const address = localStorage.getItem('WALLET_ADDRESS');
-  const balances = await client.getBalances({ user: address });  
+  const link = new Link(linkAddress);
+
+  const address = localStorage.getItem("WALLET_ADDRESS");
+  const balances = await client.getBalances({ user: address });
 
   let ammountInEth = ethers.utils.formatEther(balances.imx._hex);
 }
@@ -42,39 +38,32 @@ function deposit() {
   // Deposit ETH into IMX
   link.deposit({
     type: ETHTokenType.ETH,
-    amount: '0.0001'
+    amount: "0.0001",
   });
 }
 
 async function list() {
   const client = await ImmutableXClient.build({ publicApiUrl: apiAddress });
-  const address = localStorage.getItem('WALLET_ADDRESS');
-  const assetsRequest = await client.getAssets({ user: address  });
-  console.log(assetsRequest)
+  const address = localStorage.getItem("WALLET_ADDRESS");
+  const assetsRequest = await client.getAssets({ user: address });
+  console.log(assetsRequest);
 }
 
-
-
-
-
-
 class App extends Component {
-    constructor(props) {
-      super(props);
+  constructor(props) {
+    super(props);
+  }
 
-    }
-
-  async componentDidMount() {  
+  async componentDidMount() {
     const client = await ImmutableXClient.build({ publicApiUrl: apiAddress });
     const link = new Link(linkAddress);
   }
 
-    render() {
-        return (
-          
-          <div className="App">
-            <Template />
-            {/*<header className="App-header">
+  render() {
+    return (
+      <div className="App">
+        <Template />
+        {/*<header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
               <button onClick={setupAccount}>Connect</button>
               <button onClick={getWalletInfo}>Wallet</button>
@@ -89,9 +78,9 @@ class App extends Component {
                 Learn React
               </a>
             </header>*/}
-          </div>            
-        );
-    }
+      </div>
+    );
+  }
 }
 
 export default App;

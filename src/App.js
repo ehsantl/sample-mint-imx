@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import Template from './Template'
 
 import React, { Component } from 'react';
 
@@ -9,12 +10,13 @@ import { ERC721TokenType, ETHTokenType } from '@imtbl/imx-sdk';
 import { ethers } from 'ethers';
 
 
-const linkAddress = 'https://link.x.immutable.com';
-const apiAddress = 'https://api.x.immutable.com/v1';
+// const linkAddress = 'https://link.x.immutable.com';
+// const apiAddress = 'https://api.x.immutable.com/v1';
 
 // Ropsten Testnet
-//const linkAddress = 'https://link.ropsten.x.immutable.com';
-//const apiAddress = 'https://api.ropsten.x.immutable.com/v1';
+const linkAddress = 'https://link.ropsten.x.immutable.com';
+const apiAddress = 'https://api.ropsten.x.immutable.com/v1';
+
 
 // Link SDK
 const link = new Link(linkAddress);
@@ -33,14 +35,26 @@ async function getWalletInfo() {
   const address = localStorage.getItem('WALLET_ADDRESS');
   const balances = await client.getBalances({ user: address });  
 
-console.log(balances)
-
   let ammountInEth = ethers.utils.formatEther(balances.imx._hex);
-
-
-
-  console.log(ammountInEth)
 }
+
+function deposit() {
+  // Deposit ETH into IMX
+  link.deposit({
+    type: ETHTokenType.ETH,
+    amount: '0.0001'
+  });
+}
+
+async function list() {
+  const client = await ImmutableXClient.build({ publicApiUrl: apiAddress });
+  const address = localStorage.getItem('WALLET_ADDRESS');
+  const assetsRequest = await client.getAssets({ user: address  });
+  console.log(assetsRequest)
+}
+
+
+
 
 
 
@@ -57,11 +71,15 @@ class App extends Component {
 
     render() {
         return (
+          
           <div className="App">
-            <header className="App-header">
+            <Template />
+            {/*<header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
               <button onClick={setupAccount}>Connect</button>
               <button onClick={getWalletInfo}>Wallet</button>
+              <button onClick={deposit}>Deposit</button>
+              <button onClick={list}>List</button>
               <a
                 className="App-link"
                 href="https://reactjs.org"
@@ -70,7 +88,7 @@ class App extends Component {
               >
                 Learn React
               </a>
-            </header>
+            </header>*/}
           </div>            
         );
     }

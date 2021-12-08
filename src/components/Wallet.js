@@ -13,7 +13,7 @@ const link = new Link(linkAddress);
 
 class Wallet extends Component {
   state = {
-    walletConnected: true,
+    walletConnected: false,
   };
 
   constructor(props) {

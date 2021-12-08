@@ -62,6 +62,7 @@ class Wallet extends Component {
     return (
       <div style={{ maxWidth: "50%" }}>
         <h1>Wallet</h1>
+        <Divider />
         <Alert
           message="Warning"
           description="Use Ropsten Test Network"

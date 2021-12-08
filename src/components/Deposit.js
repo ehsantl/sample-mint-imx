@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "@imtbl/imx-sdk";
 import { ETHTokenType } from "@imtbl/imx-sdk";
 
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Divider } from "antd";
 
 // const linkAddress = 'https://link.x.immutable.com';
 // const apiAddress = 'https://api.x.immutable.com/v1';
@@ -26,6 +26,7 @@ class Deposit extends Component {
     return (
       <div>
         <h1>Deposit</h1>
+        <Divider />
         <Form
           name="basic"
           //labelCol={{ span: 4 }}

@@ -1,8 +1,9 @@
-import React from "react";
+import React    from "react";
 
 //components
-import Wallet from "./components/Wallet";
-import Deposit from "./components/Deposit";
+import Wallet   from "./components/Wallet";
+import Deposit  from "./components/Deposit";
+import Mint     from "./components/Mint";
 
 //design
 import "antd/dist/antd.css";
@@ -41,7 +42,7 @@ class Template extends React.Component {
       <Layout>
         <Sider trigger={null}>
           <div className="logo"><img src={process.env.PUBLIC_URL + 'img/logo.jpeg'} alt="ET Code" /></div>
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={["wallet"]}>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={["mint"]}>
             <Menu.Item
               key="wallet"
               icon={<WalletOutlined />}
@@ -57,7 +58,7 @@ class Template extends React.Component {
               Deposit
             </Menu.Item>
             <Menu.Item
-              key="3"
+              key="mint"
               icon={<BuildOutlined />}
               onClick={this.changePage}
             >
@@ -82,6 +83,8 @@ class Template extends React.Component {
                   return <Wallet />;
                 case "deposit":
                   return <Deposit />;
+                case "mint":
+                  return <Mint />;                  
                 default:
                   return null;
               }

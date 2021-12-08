@@ -1,5 +1,4 @@
 import React from "react";
-import logo from './logo.jpeg'; 
 
 //components
 import Wallet from "./components/Wallet";
@@ -41,7 +40,7 @@ class Template extends React.Component {
     return (
       <Layout>
         <Sider trigger={null}>
-          <div className="logo"><img src={logo} alt="ET Code" /></div>
+          <div className="logo"><img src={process.env.PUBLIC_URL + 'img/logo.jpeg'} alt="ET Code" /></div>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={["wallet"]}>
             <Menu.Item
               key="wallet"

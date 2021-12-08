@@ -5,7 +5,6 @@ import Template from "./Template";
 import React, { Component } from "react";
 
 import { ImmutableXClient, Link } from "@imtbl/imx-sdk";
-import { ERC721TokenType, ETHTokenType } from "@imtbl/imx-sdk";
 import { ethers } from "ethers";
 
 // const linkAddress = 'https://link.x.immutable.com';
@@ -22,24 +21,6 @@ async function setupAccount() {
   const { address, starkPublicKey } = await link.setup({});
   localStorage.setItem("WALLET_ADDRESS", address);
   localStorage.setItem("STARK_PUBLIC_KEY", starkPublicKey);
-}
-
-async function getWalletInfo() {
-  const client = await ImmutableXClient.build({ publicApiUrl: apiAddress });
-  const link = new Link(linkAddress);
-
-  const address = localStorage.getItem("WALLET_ADDRESS");
-  const balances = await client.getBalances({ user: address });
-
-  let ammountInEth = ethers.utils.formatEther(balances.imx._hex);
-}
-
-function deposit() {
-  // Deposit ETH into IMX
-  link.deposit({
-    type: ETHTokenType.ETH,
-    amount: "0.0001",
-  });
 }
 
 async function list() {

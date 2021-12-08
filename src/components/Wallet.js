@@ -11,12 +11,6 @@ const apiAddress = "https://api.ropsten.x.immutable.com/v1";
 // Link SDK
 const link = new Link(linkAddress);
 
-const setupAccount = async () => {
-  const { address, starkPublicKey } = await link.setup({});
-  localStorage.setItem("WALLET_ADDRESS", address);
-  localStorage.setItem("STARK_PUBLIC_KEY", starkPublicKey);
-};
-
 class Wallet extends Component {
   state = {
     walletConnected: true,
@@ -26,10 +20,20 @@ class Wallet extends Component {
     super(props);
   }
 
+  //   async function getWalletInfo() {
+  //   const client = await ImmutableXClient.build({ publicApiUrl: apiAddress });
+  //   const link = new Link(linkAddress);
+
+  //   const address = localStorage.getItem("WALLET_ADDRESS");
+  //   const balances = await client.getBalances({ user: address });
+
+  //   let ammountInEth = ethers.utils.formatEther(balances.imx._hex);
+  // }
+
   setupAccount = async () => {
-    // const { address, starkPublicKey } = await link.setup({});
-    // localStorage.setItem("WALLET_ADDRESS", address);
-    // localStorage.setItem("STARK_PUBLIC_KEY", starkPublicKey);
+    const { address, starkPublicKey } = await link.setup({});
+    localStorage.setItem("WALLET_ADDRESS", address);
+    localStorage.setItem("STARK_PUBLIC_KEY", starkPublicKey);
 
     this.setState({
       walletConnected: true,

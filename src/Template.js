@@ -3,6 +3,9 @@ import ReactDOM from "react-dom";
 
 //components
 import Wallet from "./components/Wallet";
+import Deposit from "./components/Deposit";
+
+//design
 import "antd/dist/antd.css";
 import "./index.css";
 import { Layout, Menu } from "antd";
@@ -48,7 +51,7 @@ class Template extends React.Component {
               Wallet
             </Menu.Item>
             <Menu.Item
-              key="2"
+              key="deposit"
               icon={<DollarOutlined />}
               onClick={this.changePage}
             >
@@ -85,6 +88,8 @@ class Template extends React.Component {
               switch (this.state.page) {
                 case "wallet":
                   return <Wallet />;
+                case "deposit":
+                  return <Deposit />;
                 default:
                   return null;
               }

@@ -9,9 +9,9 @@ import { Layout, Menu } from "antd";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
+  WalletOutlined,
+  DollarOutlined,
+  BuildOutlined,
 } from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
@@ -42,24 +42,24 @@ class Template extends React.Component {
           <Menu theme="dark" mode="inline" defaultSelectedKeys={["wallet"]}>
             <Menu.Item
               key="wallet"
-              icon={<UserOutlined />}
+              icon={<WalletOutlined />}
               onClick={this.changePage}
             >
               Wallet
             </Menu.Item>
             <Menu.Item
               key="2"
-              icon={<VideoCameraOutlined />}
+              icon={<DollarOutlined />}
               onClick={this.changePage}
             >
-              nav 2
+              Deposit
             </Menu.Item>
             <Menu.Item
               key="3"
-              icon={<UploadOutlined />}
+              icon={<BuildOutlined />}
               onClick={this.changePage}
             >
-              nav 3
+              Mint
             </Menu.Item>
           </Menu>
         </Sider>
@@ -81,7 +81,6 @@ class Template extends React.Component {
               minHeight: 280,
             }}
           >
-            <p>Page: {this.state.page}</p>
             {(() => {
               switch (this.state.page) {
                 case "wallet":

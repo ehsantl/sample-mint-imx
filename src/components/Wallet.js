@@ -19,7 +19,7 @@ const setupAccount = async () => {
 
 class Wallet extends Component {
   state = {
-    walletConnected: false,
+    walletConnected: true,
   };
 
   constructor(props) {
@@ -27,9 +27,9 @@ class Wallet extends Component {
   }
 
   setupAccount = async () => {
-    const { address, starkPublicKey } = await link.setup({});
-    localStorage.setItem("WALLET_ADDRESS", address);
-    localStorage.setItem("STARK_PUBLIC_KEY", starkPublicKey);
+    // const { address, starkPublicKey } = await link.setup({});
+    // localStorage.setItem("WALLET_ADDRESS", address);
+    // localStorage.setItem("STARK_PUBLIC_KEY", starkPublicKey);
 
     this.setState({
       walletConnected: true,
@@ -47,10 +47,10 @@ class Wallet extends Component {
     return (
       <div>
         <h1>Wallet</h1>
-        {localStorage.getItem("WALLET_ADDRESS") === null && (
+        {this.state.walletConnected === false && (
           <button onClick={this.setupAccount}>Connect</button>
         )}
-        {localStorage.getItem("WALLET_ADDRESS") !== null && (
+        {this.state.walletConnected === true && (
           <div>
             <p>Address: {localStorage.getItem("WALLET_ADDRESS")}</p>
             <p>Network: {localStorage.getItem("ETH_NETWORK")}</p>

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { ImmutableXClient, Link } from "@imtbl/imx-sdk";
+import { ethers } from "ethers";
 
+import { Alert, Divider } from "antd";
 // const linkAddress = 'https://link.x.immutable.com';
 // const apiAddress = 'https://api.x.immutable.com/v1';
 
@@ -14,21 +16,8 @@ const link = new Link(linkAddress);
 class Wallet extends Component {
   state = {
     walletConnected: false,
+    balance: 0,
   };
-
-  constructor(props) {
-    super(props);
-  }
-
-  //   async function getWalletInfo() {
-  //   const client = await ImmutableXClient.build({ publicApiUrl: apiAddress });
-  //   const link = new Link(linkAddress);
-
-  //   const address = localStorage.getItem("WALLET_ADDRESS");
-  //   const balances = await client.getBalances({ user: address });
-
-  //   let ammountInEth = ethers.utils.formatEther(balances.imx._hex);
-  // }
 
   setupAccount = async () => {
     const { address, starkPublicKey } = await link.setup({});
@@ -38,6 +27,8 @@ class Wallet extends Component {
     this.setState({
       walletConnected: true,
     });
+
+    this.getBalances();
   };
 
   disconnectAccount = () => {
@@ -47,10 +38,40 @@ class Wallet extends Component {
     });
   };
 
+  getBalances = async () => {
+    const client = await ImmutableXClient.build({ publicApiUrl: apiAddress });
+    const balances = await client.getBalances({
+      user: localStorage.getItem("WALLET_ADDRESS"),
+    });
+    this.setState({
+      balance: ethers.utils.formatEther(balances.imx._hex),
+    });
+  };
+
+  componentDidMount() {
+    if (localStorage.getItem("WALLET_ADDRESS") !== null) {
+      this.setState({
+        walletConnected: true,
+      });
+      //set blanace in state
+      this.getBalances();
+    }
+  }
+
   render() {
     return (
-      <div>
+      <div style={{ maxWidth: "50%" }}>
         <h1>Wallet</h1>
+        <Alert
+          message="Warning"
+          description="Use Ropsten Test Network"
+          type="warning"
+          showIcon
+          closable
+        />
+
+        <Divider />
+
         {this.state.walletConnected === false && (
           <button onClick={this.setupAccount}>Connect</button>
         )}
@@ -58,7 +79,7 @@ class Wallet extends Component {
           <div>
             <p>Address: {localStorage.getItem("WALLET_ADDRESS")}</p>
             <p>Network: {localStorage.getItem("ETH_NETWORK")}</p>
-
+            <p>Balance: {this.state.balance} ETH</p>
             <button onClick={this.disconnectAccount}>Disconnect</button>
           </div>
         )}

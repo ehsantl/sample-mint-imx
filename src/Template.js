@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import logo from './logo.jpeg'; 
 
 //components
 import Wallet from "./components/Wallet";
@@ -21,7 +21,7 @@ const { Header, Sider, Content } = Layout;
 
 class Template extends React.Component {
   state = {
-    collapsed: false,
+    //collapsed: false,
     page: "wallet",
   };
 
@@ -31,17 +31,17 @@ class Template extends React.Component {
     });
   };
 
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
+  // toggle = () => {
+  //   this.setState({
+  //     collapsed: !this.state.collapsed,
+  //   });
+  // };
 
   render() {
     return (
       <Layout>
-        <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-          <div className="logo" />
+        <Sider trigger={null}>
+          <div className="logo"><img src={logo} alt="ET Code" /></div>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={["wallet"]}>
             <Menu.Item
               key="wallet"
@@ -68,13 +68,6 @@ class Template extends React.Component {
         </Sider>
         <Layout className="site-layout">
           <Header className="site-layout-background" style={{ padding: 0 }}>
-            {React.createElement(
-              this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-              {
-                className: "trigger",
-                onClick: this.toggle,
-              }
-            )}
           </Header>
           <Content
             className="site-layout-background"

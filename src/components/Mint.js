@@ -1,28 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Divider } from 'antd';
 
-import { AlchemyProvider } from '@ethersproject/providers';
-
-
-
-const provider = new AlchemyProvider('ropsten', env.alchemyApiKey);
-
-
-const waitForTransaction = async (promise: Promise<string>) => {
-    const txId = await promise;
-    // log.info(component, 'Waiting for transaction', {
-    //   txId,
-    //   etherscanLink: `https://ropsten.etherscan.io/tx/${txId}`,
-    //   alchemyLink: `https://dashboard.alchemyapi.io/mempool/eth-ropsten/tx/${txId}`,
-    // });
-
-    const receipt = await provider.waitForTransaction(txId);
-    if (receipt.status === 0) {
-      throw new Error('Transaction rejected');
-    }
-    return receipt;
-};
-
 class Mint extends Component {
 
     state = {

@@ -6,7 +6,7 @@
     }
   },
   "function": {
-    "imxSdkLambda": {
+    "imxSdkLambdaFunction": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
@@ -59,7 +59,7 @@
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "imxSdkLambda",
+          "resourceName": "imxSdkLambdaFunction",
           "attributes": [
             "Name",
             "Arn"

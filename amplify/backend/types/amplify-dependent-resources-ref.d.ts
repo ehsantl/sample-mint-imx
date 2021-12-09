@@ -6,13 +6,11 @@ export type AmplifyDependentResourcesAttributes = {
             "StreamArn": "string",
             "PartitionKeyName": "string",
             "PartitionKeyType": "string",
-            "SortKeyName": "string",
-            "SortKeyType": "string",
             "Region": "string"
         }
     },
     "function": {
-        "imxSdkLambda": {
+        "imxSdkLambdaFunction": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",

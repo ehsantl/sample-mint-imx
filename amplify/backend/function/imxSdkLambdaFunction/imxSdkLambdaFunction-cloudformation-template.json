@@ -55,12 +55,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "imxSdkLambda",
+            "imxSdkLambdaFunction",
             {
               "Fn::Join": [
                 "",
                 [
-                  "imxSdkLambda",
+                  "imxSdkLambdaFunction",
                   "-",
                   {
                     "Ref": "env"
@@ -97,12 +97,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "samplemintimxLambdaRoledbecf272",
+            "samplemintimxLambdaRole0ea9ea3d",
             {
               "Fn::Join": [
                 "",
                 [
-                  "samplemintimxLambdaRoledbecf272",
+                  "samplemintimxLambdaRole0ea9ea3d",
                   "-",
                   {
                     "Ref": "env"

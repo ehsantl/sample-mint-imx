@@ -1,20 +1,11 @@
 {
   "version": 1,
   "paths": {
-    "/api/metadata": {
-      "name": "/api/metadata",
-      "lambdaFunction": "imxSdkLambda",
+    "/metadata": {
+      "name": "/metadata",
+      "lambdaFunction": "imxSdkLambdaFunction",
       "permissions": {
-        "setting": "protected",
-        "auth": [
-          "create",
-          "read",
-          "update",
-          "delete"
-        ],
-        "guest": [
-          "read"
-        ]
+        "setting": "open"
       }
     }
   }

@@ -22,6 +22,11 @@ class Mint extends Component {
     return receipt;
   };
 
+  getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+
   mint = async (event) => {
     event.preventDefault();
     const mintToWallet = localStorage.getItem("WALLET_ADDRESS"); // eth wallet public address which will receive the token
@@ -54,7 +59,7 @@ class Mint extends Component {
               type: MintableERC721TokenType.MINTABLE_ERC721,
               data: {
                 tokenAddress: process.env.REACT_APP_COLLECTION_CONTRACT_ADDRESS, // address of token
-                id: "124", // must be a unique uint256 as a string
+                id: getRandomInt(99999999999), // must be a unique uint256 as a string
                 blueprint: event.target.metadata.value, // metadata can be anything but your L1 contract must parse it on withdrawal from the blueprint format '{tokenId}:{metadata}'
               },
             },

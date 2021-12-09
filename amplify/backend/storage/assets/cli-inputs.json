@@ -1,0 +1,14 @@
+{
+  "resourceName": "assets",
+  "tableName": "assets",
+  "partitionKey": {
+    "fieldName": "id",
+    "fieldType": "number"
+  },
+  "sortKey": {
+    "fieldName": "metadata",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

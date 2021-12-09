@@ -4,6 +4,10 @@ import { AlchemyProvider } from "@ethersproject/providers";
 import { Wallet } from "@ethersproject/wallet";
 import { ImmutableXClient, MintableERC721TokenType } from "@imtbl/imx-sdk";
 import { Input } from "antd";
+import { Amplify } from 'aws-amplify';
+import config from './../aws-exports';
+
+Amplify.configure(config);
 
 const provider = new AlchemyProvider("ropsten", "");
 
@@ -22,12 +26,23 @@ class Mint extends Component {
     return receipt;
   };
 
-  getRandomInt(max) {
-    return Math.floor(Math.random() * max);
+  postData = (event) => {
+    event.preventDefault();
+    const id = Math.floor(Math.random() * 99999999999);
+    Amplify.API.post('imxSdkApi', '/metadata', {
+      body: {
+        id: id,
+        code: event.target.metadata.value,
+        image_url: "https://env-prod.d2apndw1p64nhp.amplifyapp.com/img/logo.jpeg"
+      }
+    }).then(result => {
+        console.log(result)
+        this.mint(event, id)
+    });    
   }
 
 
-  mint = async (event) => {
+  mint = async (event, id) => {
     event.preventDefault();
     const mintToWallet = localStorage.getItem("WALLET_ADDRESS"); // eth wallet public address which will receive the token
     const signer = new Wallet(process.env.REACT_APP_SIGNER_PRIVATE_KEY).connect(provider);
@@ -59,7 +74,7 @@ class Mint extends Component {
               type: MintableERC721TokenType.MINTABLE_ERC721,
               data: {
                 tokenAddress: process.env.REACT_APP_COLLECTION_CONTRACT_ADDRESS, // address of token
-                id: this.getRandomInt(99999999999), // must be a unique uint256 as a string
+                id: id.toString(), // must be a unique uint256 as a string
                 blueprint: event.target.metadata.value, // metadata can be anything but your L1 contract must parse it on withdrawal from the blueprint format '{tokenId}:{metadata}'
               },
             },
@@ -68,7 +83,9 @@ class Mint extends Component {
           authSignature: "", // Leave empty
         },
       ],
-    });
+    }).then(function() {
+      alert('Added to the DB and Minted successfully :)')
+    })
   };
 
   caesarCipher(str) {
@@ -124,7 +141,7 @@ class Mint extends Component {
         <Divider />
 
         {localStorage.getItem("WALLET_ADDRESS") !== null && (
-          <form onSubmit={this.mint}>    
+          <form onSubmit={this.postData}>    
             <Divider />
             <p>Asset</p>
             <TextArea

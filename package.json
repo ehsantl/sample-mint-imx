@@ -9,6 +9,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "antd": "^4.17.2",
+    "aws-amplify": "^4.3.10",
     "enc-utils": "^3.0.0",
     "ethers": "^5.5.2",
     "keccak256": "^1.0.3",

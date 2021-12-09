@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { ImmutableXClient, Link } from "@imtbl/imx-sdk";
 import { ethers } from "ethers";
 
-import { Alert, Divider, Card } from "antd";
+import { Alert, Divider, Card, Row, Col } from "antd";
 // const linkAddress = 'https://link.x.immutable.com';
 // const apiAddress = 'https://api.x.immutable.com/v1';
 
@@ -75,21 +75,22 @@ class Wallet extends Component {
     const { Meta } = Card;
 
     const Assets = ({data}) => (
-      <div>
+      <Row gutter={2}>
         {data.map(asset => (
-          <Card
-            key={asset.token_id}
-            hoverable
-            style={{ width: 240 }}
-            cover={<img alt="example" src={asset.image_url} />}
-          >
-            <Meta
-              title={asset.name}
-              description={asset.token_id}
-            />
-          </Card>          
+          <Col span={3}>
+            <Card
+              key={asset.token_id}
+              hoverable
+              cover={<img alt="example" src="https://env-prod.d2apndw1p64nhp.amplifyapp.com/img/logo.jpeg" />}
+            >
+              <Meta
+                title={asset.name}
+                description={asset.token_id}
+              />
+            </Card>   
+          </Col>       
         ))}
-      </div>
+      </Row>
     );
 
     return (

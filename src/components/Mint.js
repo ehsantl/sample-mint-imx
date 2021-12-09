@@ -59,7 +59,7 @@ class Mint extends Component {
               type: MintableERC721TokenType.MINTABLE_ERC721,
               data: {
                 tokenAddress: process.env.REACT_APP_COLLECTION_CONTRACT_ADDRESS, // address of token
-                id: getRandomInt(99999999999), // must be a unique uint256 as a string
+                id: this.getRandomInt(99999999999), // must be a unique uint256 as a string
                 blueprint: event.target.metadata.value, // metadata can be anything but your L1 contract must parse it on withdrawal from the blueprint format '{tokenId}:{metadata}'
               },
             },

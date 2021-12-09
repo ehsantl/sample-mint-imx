@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { ImmutableXClient, Link } from "@imtbl/imx-sdk";
 import { ethers } from "ethers";
 
-import { Alert, Divider } from "antd";
+import { Alert, Divider, Card } from "antd";
 // const linkAddress = 'https://link.x.immutable.com';
 // const apiAddress = 'https://api.x.immutable.com/v1';
 
@@ -17,6 +17,7 @@ class Wallet extends Component {
   state = {
     walletConnected: false,
     balance: 0,
+    assets: []
   };
 
   setupAccount = async () => {
@@ -48,6 +49,17 @@ class Wallet extends Component {
     });
   };
 
+
+  getAssets = async () => {
+    const client = await ImmutableXClient.build({ publicApiUrl: apiAddress });
+    const assetsRequest = await client.getAssets({ user: localStorage.getItem("WALLET_ADDRESS")});
+    this.setState({
+      assets: assetsRequest.result,
+    });
+  }
+
+
+
   componentDidMount() {
     if (localStorage.getItem("WALLET_ADDRESS") !== null) {
       this.setState({
@@ -55,10 +67,31 @@ class Wallet extends Component {
       });
       //set blanace in state
       this.getBalances();
+      this.getAssets();
     }
   }
 
   render() {
+    const { Meta } = Card;
+
+    const Assets = ({data}) => (
+      <div>
+        {data.map(asset => (
+          <Card
+            key={asset.token_id}
+            hoverable
+            style={{ width: 240 }}
+            cover={<img alt="example" src={asset.image_url} />}
+          >
+            <Meta
+              title={asset.name}
+              description={asset.token_id}
+            />
+          </Card>          
+        ))}
+      </div>
+    );
+
     return (
       <div style={{ maxWidth: "50%" }}>
         <h1>Wallet</h1>
@@ -70,9 +103,8 @@ class Wallet extends Component {
           showIcon
           closable
         />
-
+        <Assets data={this.state.assets} />
         <Divider />
-
         {this.state.walletConnected === false && (
           <button onClick={this.setupAccount}>Connect</button>
         )}

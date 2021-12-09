@@ -27,29 +27,34 @@ class Deposit extends Component {
       <div>
         <h1>Deposit</h1>
         <Divider />
-        <Form
-          name="basic"
-          //labelCol={{ span: 4 }}
-          //wrapperCol={{ span: 8 }}
-          initialValues={{ remember: true }}
-          onFinish={this.deposit}
-          autoComplete="off"
-        >
-          <Form.Item
-            label="Amount"
-            name="amount"
-            type="number"
-            rules={[{ required: true, message: "Please input the amount ETH" }]}
+        {localStorage.getItem("WALLET_ADDRESS") !== null && (
+          <Form
+            name="basic"
+            //labelCol={{ span: 4 }}
+            //wrapperCol={{ span: 8 }}
+            initialValues={{ remember: true }}
+            onFinish={this.deposit}
+            autoComplete="off"
           >
-            <Input />
-          </Form.Item>
+            <Form.Item
+              label="Amount"
+              name="amount"
+              type="number"
+              rules={[{ required: true, message: "Please input the amount ETH" }]}
+            >
+              <Input />
+            </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Deposit
-            </Button>
-          </Form.Item>
-        </Form>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Deposit
+              </Button>
+            </Form.Item>
+          </Form>
+        )}
+        {localStorage.getItem("WALLET_ADDRESS") === null && (
+          <p>Please connect your wallet first to Deposit</p>
+        )}
       </div>
     );
   }

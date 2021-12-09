@@ -1,17 +1,15 @@
-import React    from "react";
+import React from "react";
 
 //components
-import Wallet   from "./components/Wallet";
-import Deposit  from "./components/Deposit";
-import Mint     from "./components/Mint";
+import Wallet from "./components/Wallet";
+import Deposit from "./components/Deposit";
+import Mint from "./components/Mint";
 
 //design
 import "antd/dist/antd.css";
 import "./index.css";
 import { Layout, Menu } from "antd";
 import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
   WalletOutlined,
   DollarOutlined,
   BuildOutlined,
@@ -41,8 +39,10 @@ class Template extends React.Component {
     return (
       <Layout>
         <Sider trigger={null}>
-          <div className="logo"><img src={process.env.PUBLIC_URL + 'img/logo.jpeg'} alt="ET Code" /></div>
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={["mint"]}>
+          <div className="logo">
+            <img src={process.env.PUBLIC_URL + "img/logo.jpeg"} alt="ET Code" />
+          </div>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={["wallet"]}>
             <Menu.Item
               key="wallet"
               icon={<WalletOutlined />}
@@ -67,8 +67,10 @@ class Template extends React.Component {
           </Menu>
         </Sider>
         <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }}>
-          </Header>
+          <Header
+            className="site-layout-background"
+            style={{ padding: 0 }}
+          ></Header>
           <Content
             className="site-layout-background"
             style={{
@@ -84,7 +86,7 @@ class Template extends React.Component {
                 case "deposit":
                   return <Deposit />;
                 case "mint":
-                  return <Mint />;                  
+                  return <Mint />;
                 default:
                   return null;
               }

@@ -16,6 +16,7 @@ class Mint extends Component {
     collectionName: "",
     collectionDescription: "",
     collectionImageUrl: "",
+    mintDisabledStatus: false
   };
 
   waitForTransaction = async (txId) => {
@@ -29,6 +30,12 @@ class Mint extends Component {
   postData = (event) => {
     event.preventDefault();
     const id = Math.floor(Math.random() * 99999999999);
+
+    // disable button
+    this.setState({
+      mintDisabledStatus: true
+    });
+
     Amplify.API.post('imxSdkApi', '/metadata', {
       body: {
         id: id,
@@ -43,6 +50,7 @@ class Mint extends Component {
 
 
   mint = async (event, id) => {
+    const _that = this;
     event.preventDefault();
     const mintToWallet = localStorage.getItem("WALLET_ADDRESS"); // eth wallet public address which will receive the token
     const signer = new Wallet(process.env.REACT_APP_SIGNER_PRIVATE_KEY).connect(provider);
@@ -85,6 +93,9 @@ class Mint extends Component {
       ],
     }).then(function() {
       alert('Added to the DB and Minted successfully :)')
+      _that.setState({
+        mintDisabledStatus: false
+      });
     })
   };
 
@@ -155,7 +166,7 @@ class Mint extends Component {
                 localStorage.getItem("WALLET_ADDRESS").toLowerCase()
               )}
             />
-            <button name="mint" type="submit" >
+            <button name="mint" type="submit" disabled={this.state.mintDisabledStatus} >
               Mint
             </button>
           </form>

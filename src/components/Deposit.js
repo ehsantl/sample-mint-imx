@@ -40,7 +40,9 @@ class Deposit extends Component {
               label="Amount"
               name="amount"
               type="number"
-              rules={[{ required: true, message: "Please input the amount ETH" }]}
+              rules={[
+                { required: true, message: "Please input the amount ETH" },
+              ]}
             >
               <Input />
             </Form.Item>

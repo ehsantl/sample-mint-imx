@@ -4,8 +4,8 @@ import { AlchemyProvider } from "@ethersproject/providers";
 import { Wallet } from "@ethersproject/wallet";
 import { ImmutableXClient, MintableERC721TokenType } from "@imtbl/imx-sdk";
 import { Input } from "antd";
-import { Amplify } from 'aws-amplify';
-import config from './../aws-exports';
+import Amplify, { API } from "aws-amplify";
+import config from "./../aws-exports";
 
 Amplify.configure(config);
 
@@ -16,7 +16,7 @@ class Mint extends Component {
     collectionName: "",
     collectionDescription: "",
     collectionImageUrl: "",
-    mintDisabledStatus: false
+    mintDisabledStatus: false,
   };
 
   waitForTransaction = async (txId) => {
@@ -33,27 +33,29 @@ class Mint extends Component {
 
     // disable button
     this.setState({
-      mintDisabledStatus: true
+      mintDisabledStatus: true,
     });
 
-    Amplify.API.post('imxSdkApi', '/metadata', {
+    API.post("imxSdkApi", "/metadata", {
       body: {
         id: id,
         code: event.target.metadata.value,
-        image_url: "https://env-prod.d2apndw1p64nhp.amplifyapp.com/img/logo.jpeg"
-      }
-    }).then(result => {
-        console.log(result)
-        this.mint(event, id)
-    });    
-  }
-
+        image_url:
+          "https://env-prod.d2apndw1p64nhp.amplifyapp.com/img/logo.jpeg",
+      },
+    }).then((result) => {
+      console.log(result);
+      this.mint(event, id);
+    });
+  };
 
   mint = async (event, id) => {
     const _that = this;
     event.preventDefault();
     const mintToWallet = localStorage.getItem("WALLET_ADDRESS"); // eth wallet public address which will receive the token
-    const signer = new Wallet(process.env.REACT_APP_SIGNER_PRIVATE_KEY).connect(provider);
+    const signer = new Wallet(process.env.REACT_APP_SIGNER_PRIVATE_KEY).connect(
+      provider
+    );
     const minter = await ImmutableXClient.build({
       publicApiUrl: "https://api.ropsten.x.immutable.com/v1", //https://api.ropsten.x.immutable.com/v1, //  for ropsten, https://api.x.immutable.com/v1 for mainnet
       signer: signer,
@@ -73,30 +75,33 @@ class Mint extends Component {
       await this.waitForTransaction(Promise.resolve(registerImxResult.tx_hash));
     }
 
-    await minter.mint({
-      mints: [
-        {
-          etherKey: mintToWallet.toLowerCase(),
-          tokens: [
-            {
-              type: MintableERC721TokenType.MINTABLE_ERC721,
-              data: {
-                tokenAddress: process.env.REACT_APP_COLLECTION_CONTRACT_ADDRESS, // address of token
-                id: id.toString(), // must be a unique uint256 as a string
-                blueprint: event.target.metadata.value, // metadata can be anything but your L1 contract must parse it on withdrawal from the blueprint format '{tokenId}:{metadata}'
+    await minter
+      .mint({
+        mints: [
+          {
+            etherKey: mintToWallet.toLowerCase(),
+            tokens: [
+              {
+                type: MintableERC721TokenType.MINTABLE_ERC721,
+                data: {
+                  tokenAddress:
+                    process.env.REACT_APP_COLLECTION_CONTRACT_ADDRESS, // address of token
+                  id: id.toString(), // must be a unique uint256 as a string
+                  blueprint: event.target.metadata.value, // metadata can be anything but your L1 contract must parse it on withdrawal from the blueprint format '{tokenId}:{metadata}'
+                },
               },
-            },
-          ],
-          nonce: "1",
-          authSignature: "", // Leave empty
-        },
-      ],
-    }).then(function() {
-      alert('Added to the DB and Minted successfully :)')
-      _that.setState({
-        mintDisabledStatus: false
+            ],
+            nonce: "1",
+            authSignature: "", // Leave empty
+          },
+        ],
+      })
+      .then(function () {
+        alert("Added to the DB and Minted successfully :)");
+        _that.setState({
+          mintDisabledStatus: false,
+        });
       });
-    })
   };
 
   caesarCipher(str) {
@@ -117,7 +122,8 @@ class Mint extends Component {
   componentDidMount() {
     const options = { method: "GET", headers: { Accept: "application/json" } };
     fetch(
-      "https://api.ropsten.x.immutable.com/v1/collections/" + process.env.REACT_APP_COLLECTION_CONTRACT_ADDRESS,
+      "https://api.ropsten.x.immutable.com/v1/collections/" +
+        process.env.REACT_APP_COLLECTION_CONTRACT_ADDRESS,
       options
     )
       .then((response) => response.json())
@@ -152,21 +158,25 @@ class Mint extends Component {
         <Divider />
 
         {localStorage.getItem("WALLET_ADDRESS") !== null && (
-          <form onSubmit={this.postData}>    
+          <form onSubmit={this.postData}>
             <Divider />
             <p>Asset</p>
             <TextArea
               style={{
-                "fontSize": "30px",
-                "width": "250px",
-                "height": "200px"
+                fontSize: "30px",
+                width: "250px",
+                height: "200px",
               }}
               name="metadata"
               value={this.caesarCipher(
                 localStorage.getItem("WALLET_ADDRESS").toLowerCase()
               )}
             />
-            <button name="mint" type="submit" disabled={this.state.mintDisabledStatus} >
+            <button
+              name="mint"
+              type="submit"
+              disabled={this.state.mintDisabledStatus}
+            >
               Mint
             </button>
           </form>

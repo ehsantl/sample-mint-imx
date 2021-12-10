@@ -17,7 +17,7 @@ class Wallet extends Component {
   state = {
     walletConnected: false,
     balance: 0,
-    assets: []
+    assets: [],
   };
 
   setupAccount = async () => {
@@ -49,16 +49,15 @@ class Wallet extends Component {
     });
   };
 
-
   getAssets = async () => {
     const client = await ImmutableXClient.build({ publicApiUrl: apiAddress });
-    const assetsRequest = await client.getAssets({ user: localStorage.getItem("WALLET_ADDRESS")});
+    const assetsRequest = await client.getAssets({
+      user: localStorage.getItem("WALLET_ADDRESS"),
+    });
     this.setState({
       assets: assetsRequest.result,
     });
-  }
-
-
+  };
 
   componentDidMount() {
     if (localStorage.getItem("WALLET_ADDRESS") !== null) {
@@ -74,21 +73,23 @@ class Wallet extends Component {
   render() {
     const { Meta } = Card;
 
-    const Assets = ({data}) => (
+    const Assets = ({ data }) => (
       <Row gutter={2}>
-        {data.map(asset => (
+        {data.map((asset) => (
           <Col span={3}>
             <Card
               key={asset.token_id}
               hoverable
-              cover={<img alt="example" src="https://env-prod.d2apndw1p64nhp.amplifyapp.com/img/logo.jpeg" />}
+              cover={
+                <img
+                  alt="example"
+                  src="https://env-prod.d2apndw1p64nhp.amplifyapp.com/img/logo.jpeg"
+                />
+              }
             >
-              <Meta
-                title={asset.name}
-                description={asset.token_id}
-              />
-            </Card>   
-          </Col>       
+              <Meta title={asset.name} description={asset.token_id} />
+            </Card>
+          </Col>
         ))}
       </Row>
     );

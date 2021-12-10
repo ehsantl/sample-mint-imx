@@ -1,1 +1,3 @@
 src/registrationConfigs.js
+amplify/
+build/
